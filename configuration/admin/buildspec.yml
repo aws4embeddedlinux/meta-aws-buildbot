@@ -1,0 +1,23 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - pip install git-remote-codecommit
+  pre_build:
+    commands:
+      - aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI
+  build:
+    commands:
+      - echo Built on `date`
+      - git clone $CODECOMMIT_REPOSITORY_CLONE_URL_GRC && cp buildbot-user-repo/user.cfg .
+      - echo BUILDBOT_WORKER_SECURITY_GROUP=$BUILDBOT_WORKER_SECURITY_GROUP >> envfile
+      - echo BUILDBOT_WORKER_SUBNET=$BUILDBOT_WORKER_SUBNET >> envfile
+      - echo CODECOMMIT_REPOSITORY_CLONE_URL_GRC=$CODECOMMIT_REPOSITORY_CLONE_URL_GRC >> envfile
+      - echo BUILDBOT_WEB_URL=$BUILDBOT_WEB_URL >> envfile
+      - echo BUILDBOT_WORKER_SSTATE_EFS_FS_ID=$BUILDBOT_WORKER_SSTATE_EFS_FS_ID >> envfile
+      - cat envfile
+      - docker build -t $ECR_REPOSITORY_URI:latest .
+      - docker push $ECR_REPOSITORY_URI:latest
+      - printf '[{"name":"buildbot-server","imageUri":"%s"}]' $ECR_REPOSITORY_URI:latest > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json

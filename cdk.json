@@ -1,0 +1,10 @@
+{
+    "app": "node dist/lib/app",
+    "amzn": {
+        "cdk-build": {
+            "build": "npm-pretty-much",
+            "version": 1
+        }
+    },
+    "output": "dist/cdk.out"
+}

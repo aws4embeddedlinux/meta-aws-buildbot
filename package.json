@@ -1,0 +1,36 @@
+{
+    "name": "aws4embeddedlinux-buildbot",
+    "version": "0.1.0",
+    "license": "MIT",
+    "main": "dist/lib/app.js",
+    "types": "dist/types/app.d.ts",
+    "scripts": {
+        "zip-config": "if [ -f dist/admin-config/config.zip ]; then rm -rf dist/admin-config; fi && mkdir -p dist/admin-config ; cd configuration/admin/ && zip -q -o ../../dist/admin-config/config.zip -r *",
+        "clean": "rm -rf ./js/ && rm -rf dist && rm -rf cdk.out && rm -rf dist/admin-config",
+        "build": "tsc",
+        "watch": "tsc -w",
+        "prepare": "npm run zip-config && npm run-script build",
+        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+        "pretest": "eslint '*/**/*.{js,ts,tsx}'",
+        "test": "echo OK",
+        "format": "eslint '**/*.{js,ts,json}' --quiet --fix",
+        "check": "eslint '**/*.{js,ts,json}'"
+    },
+    "devDependencies": {
+        "@types/node": "^20.2.3",
+        "@typescript-eslint/eslint-plugin": "^5.59.7",
+        "@typescript-eslint/parser": "^5.59.7",
+        "@typescript-eslint/typescript-estree": "^5.59.7",
+        "aws-cdk": "^2.80.0",
+        "aws-cdk-lib": "^2.80.0",
+        "constructs": "^10.2.31",
+        "eslint": "^8.41.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "prettier": "^2.8.8",
+        "typescript": "^5.0.4"
+    },
+    "dependencies": {
+        "optionator": "^0.9.1"
+    }
+}
