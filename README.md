@@ -1,4 +1,4 @@
-# aws4embeddedlinux-build
+# meta-aws-buildbot
 
 This repository contains [buildbot](https://buildbot.net/) using [AWS CDK](https://aws.amazon.com/cdk/) to run [Yocto](https://www.yoctoproject.org/) embedded Linux build jobs in AWS.
 
