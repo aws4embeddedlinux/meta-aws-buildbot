@@ -160,6 +160,7 @@ export class BuildBotServer extends cdk.Stack {
             vpc: props.vpc,
             internetFacing: true,
             // securityGroup: buildbotSg,
+            idleTimeout: Duration.seconds(600),
         });
 
         const loadBalancerAccessLogs = new Bucket(this, 'LoadBalancerLogs', {});
