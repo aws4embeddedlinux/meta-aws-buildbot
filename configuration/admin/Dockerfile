@@ -26,7 +26,7 @@ RUN buildbot create-master .
 COPY admin.cfg .
 COPY envfile .
 COPY entry.sh .
-RUN mkdir userconfig
+RUN mkdir userconfiguration
 RUN chown -R user: userconfiguration/
 COPY user.cfg userconfiguration/
 

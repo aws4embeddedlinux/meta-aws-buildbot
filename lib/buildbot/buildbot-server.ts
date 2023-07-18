@@ -70,17 +70,17 @@ export class BuildBotServer extends cdk.Stack {
     constructor(scope: cdk.App, id: string, props: BuildBotServerProps) {
         super(scope, id, { ...props });
 
-        // Temporary SG to allow only Corp access to our insecure service. Later we will use OIDC.
-        const buildbotSg = new SecurityGroup(this, 'BuildBotCorpPrefix', {
-            vpc: props.vpc,
-            description: 'BuildBot Web Access From Corp.',
-        });
+        // // Temporary SG to allow only Corp access to our insecure service. Later we will use OIDC.
+        // const buildbotSg = new SecurityGroup(this, 'BuildBotCorpPrefix', {
+        //     vpc: props.vpc,
+        //     description: 'BuildBot Web Access From Corp.',
+        // });
 
-        if (props.dns) {
-            buildbotSg.addIngressRule(Peer.anyIpv4(), Port.tcp(443));
-        } else {
-            buildbotSg.addIngressRule(Peer.prefixList('pl-f8a64391'), Port.tcp(80));
-        }
+        // if (props.dns) {
+        //     buildbotSg.addIngressRule(Peer.anyIpv4(), Port.tcp(443));
+        // } else {
+        //     buildbotSg.addIngressRule(Peer.prefixList('pl-f8a64391'), Port.tcp(80));
+        // }
 
         // Set up a SG for worker nodes to use.
         this.workerSecurityGroup = new SecurityGroup(this, 'BuildBotWorkerSg', {
@@ -103,8 +103,8 @@ export class BuildBotServer extends cdk.Stack {
         // Set up the ECS Server.
         const buildBotServerTask = new ecs.TaskDefinition(this, 'BuildBotServerTask', {
             compatibility: ecs.Compatibility.FARGATE,
-            cpu: '1024',
-            memoryMiB: '2048',
+            cpu: '4096',
+            memoryMiB: '8192',
             volumes: [
                 {
                     name: 'DBMount',
@@ -159,7 +159,7 @@ export class BuildBotServer extends cdk.Stack {
         const webLb = new ApplicationLoadBalancer(this, 'WebLB', {
             vpc: props.vpc,
             internetFacing: true,
-            securityGroup: buildbotSg,
+            // securityGroup: buildbotSg,
         });
 
         const loadBalancerAccessLogs = new Bucket(this, 'LoadBalancerLogs', {});
@@ -183,11 +183,13 @@ export class BuildBotServer extends cdk.Stack {
             port: 8010,
             targets: [buildBotService],
             protocol: ApplicationProtocol.HTTP,
+            deregistrationDelay: Duration.seconds(5),
         });
 
         webTargetGroup.configureHealthCheck({
             path: '/api/v2',
             interval: Duration.seconds(150),
+            unhealthyThresholdCount: 10,
         });
 
         // Allow our service to create and manage EC2 Workers.

@@ -18,7 +18,7 @@ if (dev) {
 
     const env = { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION };
 
-    const terminationProtection = true;
+    const terminationProtection = false;
     /// App stacks
 
     const vpc = new Vpc(app, 'Vpc', {
@@ -91,7 +91,7 @@ if (dev) {
         env,
         terminationProtection,
         bucket: buildBotConfig.bucket,
-        bucketKey: 'admin-configuration/config.zip',
+        bucketKey: 'admin-config/config.zip',
         service: buildBotServer.service,
         repo: buildBotImageRepo.repo,
         configrepo: buildBotConfig.configrepo,

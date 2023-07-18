@@ -50,6 +50,29 @@ Everyone is very welcome to contribute to this project.
 You can contribute just by submitting bugs or suggesting improvements by 
 opening an issue on GitHub.
 
+## useful commands
+
+if you have a local buildbot you can check config before uploading it:
+
+```bash
+buildbot checkconfig config/admin/admin.cfg
+```
+
+deploy new config:
+```bash
+npm run zip-config && cdk deploy --force BuildBotConfig-Personal
+```
+
+debug ecs container:
+```bash
+aws ecs execute-command --cluster XXX --task XXX --container buildbot-server --interactive --command "/bin/bash"
+```
+
+rebuild, redeploy everything:
+```bash
+npm run clean && npm run build && npm run zip-config && cdk deploy --all --force
+```
+
 
 ## License
 
