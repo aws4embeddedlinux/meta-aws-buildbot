@@ -55,7 +55,7 @@ opening an issue on GitHub.
 if you have a local buildbot you can check config before uploading it:
 
 ```bash
-buildbot checkconfig config/admin/admin.cfg
+buildbot checkconfig configuration/admin/admin.cfg
 ```
 
 deploy new config:
