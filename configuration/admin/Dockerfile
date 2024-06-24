@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lts/ubuntu:22.04_stable
 
 RUN apt-get update && apt-get install -y build-essential python3-dev libssl-dev \
-    libffi-dev python3-pip python3-venv git 
+    libffi-dev python3-pip python3-venv git
 
 # DEBUG
 RUN apt-get install -y psmisc vim lsof nmap iputils-ping curl
@@ -18,7 +18,7 @@ EXPOSE 9989
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install boto3 botocore
 RUN python3 -m pip install git-remote-codecommit
-RUN python3 -m pip install 'buildbot[bundle]'
+RUN python3 -m pip install 'buildbot[bundle]==v3.11.2'
 
 ENV PATH="/home/user/.local/bin:${PATH}"
 

@@ -47,7 +47,7 @@ cdk destroy
 ## Contributing
 
 Everyone is very welcome to contribute to this project.
-You can contribute just by submitting bugs or suggesting improvements by 
+You can contribute just by submitting bugs or suggesting improvements by
 opening an issue on GitHub.
 
 ## useful commands
@@ -70,9 +70,13 @@ aws ecs execute-command --cluster XXX --task XXX --container buildbot-server --i
 
 rebuild, redeploy everything:
 ```bash
-npm run clean && npm run build && npm run zip-config && cdk deploy --all --force
+npm run clean && npm run build && npm run zip-config && cdk deploy --all --force --require-approval never
 ```
 
+delete everything:
+```bash
+cdk destroy --all --require-approval never
+```
 
 ## License
 
