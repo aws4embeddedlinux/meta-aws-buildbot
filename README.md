@@ -60,7 +60,7 @@ buildbot checkconfig configuration/admin/admin.cfg
 
 deploy new config:
 ```bash
-npm run zip-config && cdk deploy --force BuildBotConfig-Personal
+npm run zip-config && cdk deploy --force BuildBotConfig-Personal --require-approval never
 ```
 
 debug ecs container:
