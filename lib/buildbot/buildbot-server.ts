@@ -103,8 +103,8 @@ export class BuildBotServer extends cdk.Stack {
         // Set up the ECS Server.
         const buildBotServerTask = new ecs.TaskDefinition(this, 'BuildBotServerTask', {
             compatibility: ecs.Compatibility.FARGATE,
-            cpu: '4096',
-            memoryMiB: '8192',
+            cpu: '8192',
+            memoryMiB: '16384',
             volumes: [
                 {
                     name: 'DBMount',

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { App } from 'aws-cdk-lib';
 
-import { CacheRepoStack, CachePipeline, CacheEcrStack, CacheEcsStack } from './cache-server';
+// import { CacheRepoStack, CachePipeline, CacheEcrStack, CacheEcsStack } from './cache-server';
 import { BuildBotConfig, BuildBotImageRepo, BuildBotPipeline, BuildBotServer, BuildBotFilesystem } from './buildbot';
 import { DeveloperStages, FederateOIDC } from './constants';
 import { Vpc, Cluster, ServiceDomain } from './stacks';
@@ -38,24 +38,24 @@ if (dev) {
         terminationProtection,
     });
 
-    const ssr = new CacheRepoStack(app, 'CacheRepo-Personal', {
-        env,
-        terminationProtection,
-    });
+    // const ssr = new CacheRepoStack(app, 'CacheRepo-Personal', {
+    //     env,
+    //     terminationProtection,
+    // });
 
-    const ecr = new CacheEcrStack(app, 'CacheEcr-Personal', {
-        env,
-        terminationProtection,
-    });
+    // const ecr = new CacheEcrStack(app, 'CacheEcr-Personal', {
+    //     env,
+    //     terminationProtection,
+    // });
 
-    const ecs = new CacheEcsStack(app, 'CacheEcs-Personal', {
-        env,
-        terminationProtection,
-        repository: ecr.repo,
-        cluster: cluster.cluster,
-        vpc: vpc.vpc,
-        namespace: serviceDomain.namespace,
-    });
+    // const ecs = new CacheEcsStack(app, 'CacheEcs-Personal', {
+    //     env,
+    //     terminationProtection,
+    //     repository: ecr.repo,
+    //     cluster: cluster.cluster,
+    //     vpc: vpc.vpc,
+    //     namespace: serviceDomain.namespace,
+    // });
 
     const buildBotConfig = new BuildBotConfig(app, 'BuildBotConfig-Personal', {
         env,
@@ -102,13 +102,13 @@ if (dev) {
         workerSstateEfsFsID: buildBotServer.sstateFS.fileSystemId,
     });
 
-    new CachePipeline(app, 'CachePipeline-Personal', {
-        env,
-        terminationProtection,
-        repository: ecr.repo,
-        cacheRepo: ssr.repo.repositoryName,
-        ecsCacheFargateService: ecs.service,
-    });
+    // new CachePipeline(app, 'CachePipeline-Personal', {
+    //     env,
+    //     terminationProtection,
+    //     repository: ecr.repo,
+    //     cacheRepo: ssr.repo.repositoryName,
+    //     ecsCacheFargateService: ecs.service,
+    // });
 }
 
 // End

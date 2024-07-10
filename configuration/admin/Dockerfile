@@ -18,7 +18,7 @@ EXPOSE 9989
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install boto3 botocore
 RUN python3 -m pip install git-remote-codecommit
-RUN python3 -m pip install 'buildbot[bundle]==v3.11.2'
+RUN python3 -m pip install buildbot[bundle]
 
 ENV PATH="/home/user/.local/bin:${PATH}"
 
